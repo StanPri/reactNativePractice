@@ -1,5 +1,5 @@
 export interface UsersApiResponse {
-    results?: (User)[] | null;
+    results: (User)[];
     info: Info;
   }
   export interface User {
