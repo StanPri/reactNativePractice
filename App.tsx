@@ -1,21 +1,21 @@
 import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, StatusBar} from 'react-native';
 import React, { Children, useEffect, useReducer, useState } from 'react';
+import { User, UsersApiResponse } from './Users';
 
 
 
 
 export default function App() {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]|null|undefined>();
   const [numberOfUsers, setNumberOfUsers] = useState(15)
 
   useEffect(() => {
-    console.log('useEffect')
     fetch(`https://randomuser.me/api?results=${numberOfUsers}`)
       .then((response) => {
         return response.json()
       })
-      .then((response) => { 
-        setUsers(response.results)
+      .then((response:UsersApiResponse) => { 
+          setUsers(response.results)
       })
   }, []);
 
