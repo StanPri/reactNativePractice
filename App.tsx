@@ -4,47 +4,6 @@ import React, { Children, useEffect, useReducer, useState } from 'react';
 
 
 
-type TUser = {
-  id: number;
-  name: string;
-  children?: any;
-}
-
-const userz = {
-  id: 1,
-  name: 'origin',
-  children: [{ 
-      id: 2,
-      name: '.gitignore'
-    },
-    {
-      id: 3,
-      name: 'node_modules',
-      children: [{
-        id: 4,
-        name: 'folder',
-        children: [{
-          id: 5,
-          name: 'package.json'
-        }]
-      }]
-    },
-    {
-      id: 6,
-      name: 'app.tsx'
-    }]
-  }
-
-
-
-  const Item = (user: any) => {
-   return <View >
-      <Text style={styles.title}>{user.name.last} {user.name.first}</Text>
-    </View>
-  };
-
-
-
 export default function App() {
   const [users, setUsers] = useState([]);
   const [numberOfUsers, setNumberOfUsers] = useState(15)
@@ -58,36 +17,21 @@ export default function App() {
       .then((response) => { 
         setUsers(response.results)
       })
-  }, [])
-        
-  const getSubsequentUserFetch = () => {
-    console.log('!!!!!!!!!!!!getSubsequentUserFetch')
-    fetch(`https://randomuser.me/api?results=${numberOfUsers}`)
-      .then((response) => {
-        return response.json()
-      })
-      .then((response) => { 
-        setUsers(users.concat(response.results))
-      })
-  }
+  }, []);
 
-  return (
-    // <View style={styles.container}>
-    //   {/* <FlatList data={users} renderItem={(user) => Item(user)}></FlatList>  */}
-
-    //   {users && users.map( m => Item(m))}
-        
-    // </View>
-    <View style={{flex: 1}}>
-        <FlatList
-                data={users}
-                renderItem={({item}) => Item(item)}
-                onEndReachedThreshold={0.5}
-                onEndReached={() => getSubsequentUserFetch()}
-                keyExtractor={(user:any) => user.email}
-      />
+  const Item = (user:any) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{user.name.first+", "+user.name.last}</Text>
     </View>
   );
+        
+  return(
+    <FlatList
+      data={users}
+      renderItem={({item}) => Item(item)}
+      keyExtractor={(item:any) => item.email}
+    />
+  ); 
 }
 
 const styles = StyleSheet.create({
@@ -96,12 +40,14 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
   },
   item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
   },
   title: {
     fontSize: 32,
-  }
+  },
 });
+
 
