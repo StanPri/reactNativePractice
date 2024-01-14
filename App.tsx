@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, FlatList, Button, SafeAreaView, StatusBar, ActivityIndicator} from 'react-native';
 import React, { Children, useEffect, useReducer, useState } from 'react';
 import { User, UsersApiResponse } from './Users';
+import List from './List';
 
 
 
@@ -10,12 +11,13 @@ export default function App() {
   const [numberOfUsers, setNumberOfUsers] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
+  useEffect(() => { 
+    console.log('useEffect')
     fetchUsers()
   }, []);
 
   const fetchUsers = () => {
-    console.log('fetchUsers')
+    console.log('app fetch')
     setIsLoading(true)
     fetch(`https://randomuser.me/api?results=${2}`)
       .then((response) => {
@@ -36,48 +38,10 @@ export default function App() {
           setIsLoading(false)
       })
   }
-
-  const Item = (user:User) => (
-    <View style={styles.item}>
-      <Text style={styles.title}>{user.name.first+", "+user.name.last}</Text>
-    </View>
-  );
         
   return(
-    !isLoading ?
-    <FlatList
-      data={users}
-      renderItem={({item}) => Item(item)}
-      keyExtractor={(item:User) => item.email}
-      onEndReached={() => fetchUsers()}
-    /> : 
-    <View style={styles.spinner}>
-      <ActivityIndicator size="large" />
-    </View>
+    <List initialUsers={users} isLoading={isLoading}/> 
   ); 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
-  },
-  item: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  title: {
-    fontSize: 32,
-  },
-  spinner: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 10,
-    flex: 1,
-    color: '0000ff'
-  }
-});
 
 
