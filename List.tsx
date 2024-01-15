@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, FlatList, StatusBar, ActivityIndicator} from 'react-native';
 import React, { useState } from 'react';
 import { User, UsersApiResponse } from './Users';
+import ListItem from './ListItem';
 
 type ListProps = {
     initialUsers: User[]|null|undefined, 
@@ -10,12 +11,6 @@ type ListProps = {
 const List = (props: ListProps) => {
     const [users, setUsers] = useState<User[]|null|undefined>(props.initialUsers);
     const [isLoading, setIsLoading] = useState(props.isLoading)
-
-  const Item = (user:User) => (
-    <View style={styles.item}>
-      <Text style={styles.title}>{user.name.first+", "+user.name.last}</Text>
-    </View>
-  );
 
   const fetchUsers = () => {
     console.log('List fetch')
@@ -44,7 +39,7 @@ const List = (props: ListProps) => {
         !isLoading ? 
             <FlatList
             data={users}
-            renderItem={({item}) => Item(item)}
+            renderItem={({item}) => <ListItem user={item}/>}
             keyExtractor={(item:User) => item.email}
             onMomentumScrollEnd={() => fetchUsers()}
             /> 
