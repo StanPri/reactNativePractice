@@ -9,14 +9,15 @@ interface ListItemProps {
 const ListItem = (props: ListItemProps) => {
     const [isExpanded, setIsExpended] = useState<boolean>(false)
     const expendToggle = () => setIsExpended(!isExpanded);
-    return(<View>
+    return(
+        <TouchableOpacity onPress={expendToggle}>
             <View style={styles.item}>
-                <TouchableOpacity onPress={expendToggle}>
+                <View>
                     <Text style={styles.title}>{props.user.name.first+", "+props.user.name.last}</Text>
-                </TouchableOpacity>
+                </View>
             </View>
             {isExpanded && <ItemDetail user={props.user}/>}
-        </View>);
+        </TouchableOpacity>);
 }
 
 const ItemDetail = (props: ListItemProps)  => {

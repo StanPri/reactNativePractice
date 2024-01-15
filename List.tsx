@@ -1,41 +1,39 @@
 import { StyleSheet, Text, View, FlatList, StatusBar, ActivityIndicator} from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { User, UsersApiResponse } from './Users';
 import ListItem from './ListItem';
 
 type ListProps = {
-    initialUsers: User[]|null|undefined, 
-    isLoading: boolean
+    initialUsers: User[]|null|undefined
 }
 
 const List = (props: ListProps) => {
     const [users, setUsers] = useState<User[]|null|undefined>(props.initialUsers);
-    const [isLoading, setIsLoading] = useState(props.isLoading)
+    const [isLoading, setIsLoading] = useState(false)
 
-  const fetchUsers = () => {
-    console.log('List fetch')
-    setIsLoading(true)
-    fetch(`https://randomuser.me/api?results=${2}`)
-      .then((response) => {
-        return response.json()
-      })
-      .then((response:UsersApiResponse) => { 
-          let newUsers: User[]= [];
-          console.log('Number of users')
-          console.log(response.results.length)
-          if(response){
-            newUsers = response.results
-          }
-          if(users) {
-            setUsers(users.concat(newUsers))
-          } else {
-            setUsers(newUsers)
-          }
-          setIsLoading(false)
-      })
-  }
+    const fetchUsers = () => {
+        console.log('List fetch')
+        setIsLoading(true)
+        fetch(`https://randomuser.me/api?results=${2}`)
+        .then((response) => {
+            return response.json()
+        })
+        .then((response:UsersApiResponse) => { 
+            let newUsers: User[]= [];
+            console.log('Number of users')
+            console.log(response.results.length)
+            if(response){
+                newUsers = response.results
+            }
+            if(users) {
+                setUsers(users.concat(newUsers))
+            } else {
+                setUsers(newUsers)
+            }
+            setIsLoading(false)
+        })
+    }
     return(
-
         !isLoading ? 
             <FlatList
             data={users}
@@ -47,7 +45,7 @@ const List = (props: ListProps) => {
             <View style={styles.spinner}>
                 <ActivityIndicator size="large" />
             </View>
-      ); 
+    ); 
 
     
 }
