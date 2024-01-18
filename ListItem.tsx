@@ -21,8 +21,9 @@ const ListItem = (props: ListItemProps) => {
 }
 
 const ItemDetail = (props: ListItemProps)  => {
+    const objectString = JSON.stringify(props, null, 2);
     return(<View>
-        <Text>{props.user.email}</Text>
+        <Text>{objectString}</Text>
     </View>)
 }
 const styles = StyleSheet.create({
@@ -34,6 +35,14 @@ const styles = StyleSheet.create({
     },
     title: {
       fontSize: 32,
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    objectText: {
+        fontSize: 16,
     }
   });
 

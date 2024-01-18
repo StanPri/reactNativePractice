@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { User, UsersApiResponse } from './Users';
 import List from './List';
+import { SafeAreaView } from 'react-navigation';
 
 
 
@@ -31,7 +32,9 @@ export default function App() {
   }
         
   return(
-    users ? <List initialUsers={users} />  : null
+    <SafeAreaView>
+      {users ? <List initialUsers={users} />  : null}
+    </SafeAreaView>
   ); 
 }
 
